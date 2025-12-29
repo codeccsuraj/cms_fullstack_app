@@ -140,7 +140,7 @@ const UserDocumentSchema = new mongoose.Schema(
         altMobile: { type: String, trim: true },
         motherName: { type: String, trim: true },
         fatherName: { type: String, trim: true },
-        address: { type: [AddressSchemaDocument], required: false, default: [] },
+        address: { type: AddressSchemaDocument, required: false, default: null },
         education: { type: [EducationSchemaDocument], required: false, default: [] },
         experience: { type: [ExperienceSchemaDocument], required: false, default: [] },
         skills: { type: [SkillSchemaDocument], required: false, default: [] },

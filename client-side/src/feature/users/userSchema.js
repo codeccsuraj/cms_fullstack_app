@@ -53,3 +53,37 @@ export const personalDetailsSchema = Yup.object({
         .matches(/^[6-9]\d{9}$/, "Invalid phone number")
         .nullable(),
 });
+
+export const addAddressSchemaValidation = Yup.object().shape({
+    locality: Yup.string()
+        .min(3, "Locality must be at least 3 characters")
+        .max(100, "Locality must be at most 100 characters")
+        .required("Locality is required"),
+
+    city: Yup.string()
+        .min(2, "City must be at least 2 characters")
+        .max(50, "City must be at most 50 characters")
+        .required("City is required"),
+
+    state: Yup.string()
+        .length(2, "State must be a 2-letter code (e.g. HR)")
+        .required("State is required"),
+
+    country: Yup.string()
+        .length(2, "Country must be a 2-letter code (e.g. IN)")
+        .required("Country is required"),
+
+    zipcode: Yup.string()
+        .matches(/^[0-9]{6}$/, "Zipcode must be a valid 6-digit pincode")
+        .required("Zipcode is required"),
+
+    livingType: Yup.string()
+        .oneOf(["owned", "rented", "family"], "Invalid living type")
+        .required("Living type is required"),
+
+    livingFrom: Yup.date()
+        .typeError("Living from must be a valid date")
+        .required("Living from is required"),
+
+    isActive: Yup.boolean().required("Active status is required"),
+});

@@ -30,6 +30,47 @@ class UserServices {
         }
     }
 
+    async addAddressDetails(authId, data) {
+        try {
+            const result = await UserModel.findOneAndUpdate(
+                { authId },
+                {
+                    $set: {
+                        address: {
+                            ...data,
+                        },
+                    },
+                },
+                {
+                    new: true,
+                    runValidators: true,
+                }
+            );
+
+            if (!result) {
+                return {
+                    status: 400,
+                    success: false,
+                    message: "Failed to update address",
+                };
+            }
+
+            return {
+                status: 201,
+                success: true,
+                message: "Address updated successfully",
+                data: result.address,
+            };
+        } catch (error) {
+            return {
+                status: 500,
+                success: false,
+                message: "Error occurred while updating address",
+                error,
+            };
+        }
+    }
+
     async findByAuthId(id) {
         try {
             const result = await UserModel.findOne({ authId: id });

@@ -7,6 +7,8 @@ const userRoutes = express.Router();
 
 userRoutes.post('/add-personal-info', validateSchema(addPersonalInfoSchemaValidation), user.addPersonalInfoController);
 
+userRoutes.patch('/update-address', user.updateAddressDetails);
+
 userRoutes.get('/get', user.findUserByAuthId);
 
 export default userRoutes;

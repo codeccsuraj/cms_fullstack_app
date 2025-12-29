@@ -5,7 +5,7 @@ import { Country, State, City } from 'country-state-city';
 import { addAddressSchemaValidation } from '../userSchema';
 import { useUpdateAddressMutation } from '../../../store/api/userApi';
 
-const AddAddressDetails = ({closeModal}) => {
+const AddEducationDetails = ({closeModal}) => {
     const [updateAddress, {isLoading}] = useUpdateAddressMutation()
     const user = JSON.parse(localStorage.getItem("user"));
 
@@ -65,7 +65,7 @@ const AddAddressDetails = ({closeModal}) => {
     return (
         <div>
             <div className='header mb-4'>
-                <p className='text-3xl font-bold text-[#605c21]'>Add your address details</p>
+                <p className='text-3xl font-bold text-[#605c21]'>Add your education & qualification details</p>
                 <span className='text-sm'>
                     Fill all the fields marked required (<b className='text-red-500'>*</b>)
                 </span>
@@ -188,4 +188,4 @@ const AddAddressDetails = ({closeModal}) => {
     );
 }
 
-export default AddAddressDetails;
+export default AddEducationDetails;

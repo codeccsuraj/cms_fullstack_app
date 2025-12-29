@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useGetUserByAuthQuery } from '../../../store/api/userApi';
 import { Modal, TextInput } from '../../../components';
-import { FiEdit } from "react-icons/fi";
+import { Country, State } from 'country-state-city';
 import { FaPlus } from "react-icons/fa6";
-import { AddAddressDetails, AddPersonalInfo } from '../../../feature';
+import { AddAddressDetails, AddEducationDetails, AddPersonalInfo } from '../../../feature';
 
 const MODAL_COMPONENETS = {
   PERSONAL_INFO: AddPersonalInfo,
   ADDRESS_INFO: AddAddressDetails,
+  EDUCATION_INFO: AddEducationDetails,
 }
 
 const ProfilePage = () => {
@@ -130,13 +131,35 @@ const ProfilePage = () => {
         </div>
 
         <div className='p-6'>
-          {data?.data?.address?.length > 0 ? (
-            <h2 className="text-xl font-semibold text-gray-800">Address Details</h2>
+          {data?.data?.address ? (
+            <div>
+              <h2 className="text-xl font-semibold text-gray-800">Address Details</h2>
+              <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
+                {[
+                  { label: "Locality/House/Building/Block", value: data?.data?.address?.locality },
+                  { label: "Country", value: Country.getCountryByCode(data?.data?.address?.country)?.name},
+                  { label: "State", value: State.getStateByCodeAndCountry(data?.data?.address?.state, data?.data?.address?.country)?.name},
+                  { label: "City", value: data?.data?.address?.city },
+                  { label: "Pincode", value: data?.data?.address?.zipcode },
+                ].map((field, idx) => (
+                  <div key={idx} className="group">
+                    <label className="form-label">
+                      {field.label}
+                    </label>
+                    <TextInput
+                      type="text"
+                      value={field.value || ""}
+                      readOnly
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
           ) : (
             <div className="flex flex-col items-center justify-center gap-2 py-4 bg-green-100 border-2 border-green-800 rounded-2xl">
               <span className="text-gray-800 font-bold">Add your current address so employers know where you’re based</span>
               <button
-                className="p-2 border border-gray-400 rounded-full hover:bg-gray-100 transition"
+                className="p-2 border border-gray-400 rounded-full hover:bg-gray-100 transition cursor-pointer"
                 onClick={() => openModal("ADDRESS_INFO")}
               >
                 <FaPlus />
@@ -144,13 +167,17 @@ const ProfilePage = () => {
             </div>
           )}
         </div>
+
         <div className='p-6'>
           {data?.data?.education?.length > 0 ? (
             <h2 className="text-xl font-semibold text-gray-800">Education Details</h2>
           ) : (
             <div className="flex flex-col items-center justify-center gap-2 py-4 bg-green-100 border-2 border-green-800 rounded-2xl">
               <span className="text-gray-800 font-bold">Add your educational background and qualifications</span>
-              <button className="p-2 border border-gray-400 rounded-full hover:bg-gray-100 transition">
+              <button 
+                className="p-2 border border-gray-400 rounded-full hover:bg-gray-100 transition cursor-pointer"
+                onClick={() => openModal("EDUCATION_INFO")}  
+              >
                 <FaPlus />
               </button>
             </div>

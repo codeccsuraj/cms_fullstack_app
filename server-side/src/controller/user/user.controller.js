@@ -28,3 +28,19 @@ export const findUserByAuthId = async (req, res) => {
         })
     }
 }
+
+export const updateAddressDetails = async(req, res) => {
+    try {
+        const { authId } = req.query;
+        const data = req.body;
+
+        const result = await userService.addAddressDetails(authId, data);
+        return res.status(result.status).json(result)
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: "Error occured in updating data",
+            error: error
+        })
+    }
+}
