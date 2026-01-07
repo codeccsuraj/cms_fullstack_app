@@ -1,67 +1,35 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Suspense, lazy } from "react";
-import ProtectedRoutes from "./layout/ProtectedRoutes";
-import { useSelector } from "react-redux";
 
-const SharedLayout = lazy(() => import("./layout/SharedLayout"));
-const HomePage = lazy(() => import("./shared/home/HomePage"))
+// Lazy-loaded pages
+const HomePage = React.lazy(() => import("./shared/home/HomePage"));
+const SharedLayout = React.lazy(() => import("./layout/SharedLayout"));
 
-const UserLayout = lazy(() => import("./layout/UserLayout"))
-const UserProfileLayout = lazy(() => import("./shared/profile/user/UserProfileLayout"))
-const ProfilePage = lazy(() => import("./shared/profile/user/ProfilePage"))
-
+// auth pages`
+const Login = React.lazy(() => import("./feature/auth/Login"));
+const ForgotPassword = React.lazy(() => import("./feature/auth/ForgotPassword"))
 
 const AppRoutes = () => {
-    const accessToken = useSelector((state) => state.auth.token);
-
-    const router = createBrowserRouter([
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <SharedLayout />,
+      children: [
         {
-            path: "",
-            element: (
-                <Suspense fallback={<div>Loading layout...</div>}>
-                    <SharedLayout />
-                </Suspense>
-            ),
-            children: [
-                { path: '', element: <HomePage /> },
-                {
-                    path: '/auth', element: (
-                        <ProtectedRoutes>
-                            <p>this is nrew page</p>
-                        </ProtectedRoutes>
-                    )
-                },
-            ]
+          index: true,
+          element: <HomePage />,
         },
-    ]);
+      ],
+    },
+    {path : "/login", element : <Login />},
+    {path : "/reset-password", element : <ForgotPassword />},
+  ]);
 
-    const authRoutes = createBrowserRouter([
-        {
-            path: '/',
-            element: (
-                <Suspense fallback={<p>Loading page</p>}>
-                    <UserLayout />
-                </Suspense>
-            ),
-            children: [
-                { index: true, element: <p>This is layout</p> },
-                {
-                    path: '/profile',
-                    element: (
-                        <Suspense fallback={<p>Page Loading...</p>}>
-                            <UserProfileLayout />
-                        </Suspense>
-                    ),
-                    children: [
-                        { index: true, element: <ProfilePage /> }
-                    ]
-                }
-            ]
-        }
-    ])
-
-    return <RouterProvider router={accessToken ? authRoutes : router} />;
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <RouterProvider router={router} />
+    </Suspense>
+  );
 };
 
 export default AppRoutes;

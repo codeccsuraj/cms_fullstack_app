@@ -1,64 +1,33 @@
 import React from 'react'
-import { ButtonInput, TextInput } from '../../components'
-import { useDispatch } from 'react-redux';
-import { toggleLoginState } from '../../store/slice/uiSlice';
+import { IoIosArrowBack } from "react-icons/io";
+import { Link } from 'react-router-dom';
 
 const ForgotPassword = () => {
-   const dispatch = useDispatch();
   return (
-      <div className='grid grid-cols-1 md:grid-cols-2'>
-      {/* Left Section */}
-      <div className='hidden lg:block md:block bg-gradient-to-br from-green-50 to-indigo-100 p-8 rounded-xl flex flex-col justify-center items-center text-center'>
-        <h2 className="text-3xl font-bold text-gray-800 mb-4">Welcome to Our Platform</h2>
-        <p className="text-lg text-gray-700 mb-6">
-          Discover a seamless experience with our powerful tools and features.
-        </p>
-        <div className="space-y-4">
-          <div className="flex items-center">
-            <span className="text-green-600 mr-2">✓</span>
-            <span className="text-gray-700">Easy access to your account</span>
-          </div>
-          <div className="flex items-center">
-            <span className="text-green-600 mr-2">✓</span>
-            <span className="text-gray-700">Secure and reliable</span>
-          </div>
-          <div className="flex items-center">
-            <span className="text-green-600 mr-2">✓</span>
-            <span className="text-gray-700">24/7 support</span>
+    <div className='container-fluid bg-light min-vh-100'>
+      <div className="container bg-white min-vh-100 ">
+        <div className="row">
+          <div className="col-md-6 p-5">
+                <div className="mb-4">
+                  <h1 className="h2 fw-bold text-dark mb-2">Reset your password!</h1>
+                  <p className="text-muted mb-0">Enter your email to find your account.</p>
+                </div>
+                <form className='mb-3'>
+                  <div className="mb-4">
+                    <label htmlFor="email" className="form-label fw-semibold text-dark">Email or username</label>
+                      <input type="text" className="form-control" id="email" placeholder="Enter your email or username" />
+                    <div className="form-text">We'll send a reset link to this address.</div>
+                  </div>
+                  <button type="submit" className="btn btn-dark">
+                    Send reset link
+                  </button>
+                </form>
+                  <div className="d-flex justify-content-between">
+                    <Link to="/login" href="#" className="text-decoration-none text-muted">Back to login</Link>
+                    <a href="#" className="text-decoration-none text-muted">Need help?</a>
+                  </div>
           </div>
         </div>
-      </div>
-
-      {/* Right Section */}
-      <div className="p-3 bg-white rounded-xl">
-        <div className="login-header mb-6 text-center">
-          <p className="text-emerald-700 font-semibold">Forget your password</p>
-        </div>
-
-        <form className="space-y-3">
-          {/* Email */}
-          <div className="flex flex-col">
-            <label className="text-sm font-medium text-gray-700 mb-1">
-              Type your registered email
-            </label>
-            <TextInput
-              type="text"
-              name="email"
-            />
-          </div>
-
-          {/* Button and Forgot Password */}
-          <div className="space-y-3">
-            <ButtonInput
-              type="submit"
-              label="Verify email"
-              variant="primary"
-            />
-            <p className="text-sm text-green-600 cursor-pointer text-nowrap hover:text-green-800" onClick={() => dispatch(toggleLoginState())}>
-              Back to login
-            </p>
-          </div>
-        </form>
       </div>
     </div>
   )

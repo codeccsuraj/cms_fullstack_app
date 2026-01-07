@@ -25,10 +25,7 @@ const EducationSchemaDocument = new mongoose.Schema(
         ended: { type: Date, default: null },
         isActive: { type: Boolean, default: false },
         cgpa: { type: Number, min: 0, max: 10, default: 0 },
-        grade: { type: String, trim: true },
         percentage: { type: Number, min: 0, max: 100, default: 0, },
-        professorEmail: { type: String, lowercase: true, trim: true, match: [/^\S+@\S+\.\S+$/, "Invalid email format"] },
-        city: { type: String, trim: true },
         isConsentReceived: { type: Boolean, default: false },
     },
     { timestamps: true }
